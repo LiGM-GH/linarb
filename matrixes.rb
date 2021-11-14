@@ -84,61 +84,73 @@ class Matrix
     buffer
   end
   
-  def lins(linched, linused, mult) line_sum(linched, linused, mult); end
+  def lins(linched, linused, mult = 1) line_sum linched, linused, mult; end
   def line_sum(changed_line_num, used_line_num, multiplier)
     (0..(@matrix[0].length-1)).each do |k|
-      @matrix[changed_line_num-1][k] = @matrix[changed_line_num-1][k] + 
-        @matrix[used_line_num-1][k]*multiplier
+      @matrix[changed_line_num][k] = @matrix[changed_line_num][k] + 
+        @matrix[used_line_num][k]*multiplier
     end
     to_s
   end
   
-  def linm(linched, mult) line_multiply(linched, mult); end
+  def linm(linched, mult) line_multiply linched, mult; end
   def line_multiply(changed_line_num, multiplier)
     (0..(@matrix[0].length-1)).each do |k|
-      @matrix[changed_line_num-1][k] = 
-        @matrix[changed_line_num-1][k] * multiplier
+      @matrix[changed_line_num][k] = 
+        @matrix[changed_line_num][k] * multiplier
     end
+    to_s
+  end
+  
+  def linch(line1, line2) line_change_places line1, line2; end
+  def line_change_places(line_number_1, line_number_2)
+    buffer = @matrix[line_number_2]
+    @matrix[line_number_2] = @matrix[line_number_1]
+    @matrix[line_number_1] = buffer
+    to_s
+  end
+  
+  def cols(colched, colused, mult = 1) column_sum colched, colused, mult; end
+  def column_sum(changed_column_num, used_column_num, multiplier)
+    (0..(@matrix.length-1)).each do |k|
+      @matrix[k][changed_column_num] = @matrix[k][changed_column_num] + 
+        @matrix[k][used_column_num]*multiplier
+    end
+    to_s
+  end
+  
+  def colm(colched, mult) column_multiply colched, mult; end
+  def column_multiply(changed_column_num, multiplier)
+    (0..(@matrix.length-1)).each do |k|
+      @matrix[k][changed_column_num] = 
+        @matrix[k][changed_column_num] * multiplier
+    end
+    to_s
+  end
+  
+  def colch(col1, col2) column_change_places col1, col2; end
+  def column_change_places(column1, column2)
+    buffer = []
+    @matrix.each { |line| buffer << line[column1] }
+    @matrix.length.times { |i| @matrix[i][column1] = @matrix[i][column2] }
+    @matrix.length.times { |i| @matrix[i][column2] = buffer[i] }
     to_s
   end
 end
 
-#~ matr1 = Matrix.new 2, 2
-#~ puts "Matr1: "
-#~ matr1.set_from_cli
-#~ puts "Matr1: "
-#~ puts matr1.to_s + "\n"
-
-#~ matr2 = Matrix.new 2, 2
-#~ puts "Matr2: "
-#~ matr2.set_from_cli
-#~ puts "Matr2: "
-#~ puts matr2.to_s + "\n"
-
-#~ puts "Sum: "
-#~ puts (matr1 + matr2).to_s + "\n"
-#~ puts "Given: "
-#~ puts matr1.to_s + "\nand\n" + matr2.to_s + "\n"
-
-#~ puts "Multiplied: "
-#~ puts (matr1 * matr2).to_s + "\n"
-#~ puts "Given: "
-#~ puts matr1.to_s + "\nand\n" + matr2.to_s + "\n"
-
 b = [
-[7,  -2, -4, -6, 1, 0, 0, 0],
-[-10, 2, -1, -2, 0, 1, 0, 0],
-[-10, 1, -5, -8, 0, 0, 1, 0],
-[-7,  1, -3, -5, 0, 0, 0, 1]
-]
+    [  -2,  -1,   1,   4,  -2,   2,  -6],
+    [  -2,  -2,  -3,  14,   3,   5,  20],
+    [   1,   1,  -1,  -2,   1,   0,   5],
+    [   3,   2,   3, -16,  -2,  -7, -19]
+    ]
 
 a = Matrix.new(b.length, b[0].length)
 a.matrix = b
 
-while (print "> "; true) && line = readline
-begin
+while (print "> "; true) && line = readline;    begin
   puts eval(line).inspect
-rescue => c
+rescue => c                                   # rescue
   puts c.to_s + "\n" + c.backtrace.join("\n")
-end
-end
+end;                                            end
+
