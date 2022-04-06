@@ -20,10 +20,8 @@ class LineInvCounter
     invs = 0
     last_invs = 0
     @a.length.times do |i|
-      i.upto(@a.length - 1) do |j|
-        invs += 1 if @a[i] > @a[j]
-      end
-      print @a[i], "\t", invs - last_invs, "\t", invs
+      i.upto(@a.length - 1) { |j| invs += 1 if @a[i] > @a[j] }
+      print @a[i].ljust(TAB_LENGTH), (invs - last_invs).ljust(TAB_LENGTH), invs
       puts
       last_invs = invs
     end
@@ -31,8 +29,10 @@ class LineInvCounter
   end
 end
 
-counter = LineInvCounter.new
-puts 'Вводите значения. '
-line = '9 25 3 15 18 21 24 14 1 5 8 23 17 19 2 26 30 28 7 20 11 29 27 13 10 22 6 12 4 16'
-counter.from_string(line)
-print 'Инверсий: ', counter.inversions, "\n"
+if $PROGRAM_NAME == __FILE__
+  counter = LineInvCounter.new
+  puts 'Вводите значения. '
+  line = '9 25 3 15 18 21 24 14 1 5 8 23 17 19 2 26 30 28 7 20 11 29 27 13 10 22 6 12 4 16'
+  counter.from_string(line)
+  print 'Инверсий: ', counter.inversions, "\n"
+end
