@@ -22,8 +22,12 @@ module MatrixAriphmetics
     each_line_index do |i|
       other.each_column_index do |j|
         buffer[i][j] = other.each_column_index
-                            .map { |k| @matrix[i][k] * other.matrix[k][j] }
-                            .sum; p "\t-> #{buffer[i][j]}"
+                            .map do |k|
+                              print @matrix[i][k], ' * ', other.matrix[k][j], ', '
+                              @matrix[i][k] * other.matrix[k][j] 
+                            end.sum
+        print "\t-> #{buffer[i][j]}"
+        puts
       end
     end
     buffer

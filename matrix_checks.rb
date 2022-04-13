@@ -27,8 +27,10 @@ module MatrixChecks
     end
     raise "Line not found: #{line}" unless errors.zero?
   end
+end
 
-  def self.can_multiply?(first, second)
+module ToExtend
+  def can_multiply?(first, second)
     second.matrix.length == first[0].length
   end
 end
