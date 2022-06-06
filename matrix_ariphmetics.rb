@@ -24,7 +24,7 @@ module MatrixAriphmetics
         buffer[i][j] = other.each_column_index
                             .map do |k|
                               print @matrix[i][k], ' * ', other.matrix[k][j], ', '
-                              @matrix[i][k] * other.matrix[k][j] 
+                              @matrix[i][k] * other.matrix[k][j]
                             end.sum
         print "\t-> #{buffer[i][j]}"
         puts
@@ -79,6 +79,13 @@ module MatrixAriphmetics
     @matrix.length.times { |i| @matrix[i][column2] = buffer[i] }
     self
   end
+
+  def diagonal_plus(arg)
+    arg.is_a?(Numeric) && @matrix.length.times { |i| @matrix[i][i] += arg }
+    self
+  end
+
+  def diagonal_minus(arg) = diagonal_plus(-arg)
 
   alias cols column_sum
   alias colm column_multiply
